@@ -17,7 +17,7 @@ const ProveedorService = {
     queryParams = {}
   ) {
 
-    const { SearchValue, PageNumber, PageSize, Paises } = queryParams;
+    const { SearchValue, PageNumber, PageSize, Paises, SortBy, IsDescending } = queryParams;
 
     try {
       const params = new URLSearchParams();
@@ -25,8 +25,8 @@ const ProveedorService = {
       if (SearchValue) params.append("SearchValue", SearchValue);
       if (PageNumber) params.append("PageNumber", PageNumber);
       if (PageSize) params.append("PageSize", PageSize);
-      //if (SortBy) params.append("SortBy", SortBy);
-      //if (IsDescending) params.append("IsDescending", IsDescending);
+      if (SortBy) params.append("SortBy", SortBy);
+      if (IsDescending) params.append("IsDescending", IsDescending);
 
       if (Paises && Paises.length > 0) {
         Paises.forEach((pais) => {

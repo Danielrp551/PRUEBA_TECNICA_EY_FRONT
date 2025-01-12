@@ -10,8 +10,22 @@ import {
   MenuItem,
   Box,
   CircularProgress,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { countries } from "../../constants/countries";
+
+const copyToClipboard = (text) => {
+  navigator.clipboard.writeText(text).then(
+    () => {
+      console.log("Texto copiado al portapapeles");
+    },
+    (err) => {
+      console.error("Error al copiar texto: ", err);
+    }
+  );
+};
 
 export default function ProviderForm({
   mode,
@@ -203,22 +217,35 @@ export default function ProviderForm({
               },
             }}
             render={({ field }) => (
-              <TextField
-                {...field}
-                label="Correo Electrónico"
-                fullWidth
-                disabled={isViewMode}
-                error={!!errors.correoElectronico}
-                helperText={errors.correoElectronico?.message}
-                sx={{
-                  "& label": {
-                    color: "rgba(0, 0, 0, 0.87)",
-                  },
-                  "& input": {
-                    color: "black",
-                  },
-                }}
-              />
+              <Box display="flex" alignItems="center">
+                <TextField
+                  {...field}
+                  label="Correo Electrónico"
+                  fullWidth
+                  disabled={isViewMode}
+                  error={!!errors.correoElectronico}
+                  helperText={errors.correoElectronico?.message}
+                  sx={{
+                    "& label": {
+                      color: "rgba(0, 0, 0, 0.87)",
+                    },
+                    "& input": {
+                      color: "black",
+                    },
+                  }}
+                />
+                {isViewMode && (
+                  <Tooltip title="Copiar correo electrónico">
+                    <IconButton
+                      onClick={() => copyToClipboard(field.value)}
+                      size="small"
+                      sx={{ ml: 1 }}
+                    >
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </Box>
             )}
           />
         </Grid>
@@ -236,22 +263,35 @@ export default function ProviderForm({
               },
             }}
             render={({ field }) => (
-              <TextField
-                {...field}
-                label="Sitio Web"
-                fullWidth
-                disabled={isViewMode}
-                error={!!errors.sitioWeb}
-                helperText={errors.sitioWeb?.message}
-                sx={{
-                  "& label": {
-                    color: "rgba(0, 0, 0, 0.87)",
-                  },
-                  "& input": {
-                    color: "black",
-                  },
-                }}
-              />
+              <Box display="flex" alignItems="center">
+                <TextField
+                  {...field}
+                  label="Sitio Web"
+                  fullWidth
+                  disabled={isViewMode}
+                  error={!!errors.sitioWeb}
+                  helperText={errors.sitioWeb?.message}
+                  sx={{
+                    "& label": {
+                      color: "rgba(0, 0, 0, 0.87)",
+                    },
+                    "& input": {
+                      color: "black",
+                    },
+                  }}
+                />
+                {isViewMode && (
+                  <Tooltip title="Copiar URL">
+                    <IconButton
+                      onClick={() => copyToClipboard(field.value)}
+                      size="small"
+                      sx={{ ml: 1 }}
+                    >
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </Box>
             )}
           />
         </Grid>
@@ -308,8 +348,8 @@ export default function ProviderForm({
                     color: "rgba(0, 0, 0, 0.87)",
                     backgroundColor: "white",
                     "&.Mui-disabled": {
-                      color: "rgba(0, 0, 0, 0.38)", 
-                    }
+                      color: "rgba(0, 0, 0, 0.38)",
+                    },
                   }}
                   disabled={isViewMode}
                 >

@@ -17,6 +17,8 @@ export default function Filters({
   handleSearchKeyDown,
   selectedCountries,
   handleCountryChange,
+  sortBy,
+  handleSortChange,
 }) {
   return (
     <Box className="flex gap-4 mb-6">
@@ -98,6 +100,37 @@ export default function Filters({
               </Box>
             </MenuItem>
           ))}
+        </Select>
+      </FormControl>
+      <FormControl size="small" sx={{ minWidth: 200, ml: 2 }}>
+        <InputLabel sx={{ color: "rgba(0, 0, 0, 0.87)" }}>Ordenar por</InputLabel>
+        <Select
+          value={sortBy}
+          label="Ordenar por"
+          onChange={handleSortChange}
+          sx={{
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "rgba(0, 0, 0, 0.23)",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#FFE600",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#FFE600",
+            },
+            "& .MuiSelect-select": {
+              color: "black",
+            },
+            "& .MuiSvgIcon-root": {
+              color: "black",
+            },
+          }}
+        >
+          <MenuItem value="">Ninguno</MenuItem>
+          <MenuItem value="nombreComercial_asc">Nombre Comercial (A-Z)</MenuItem>
+          <MenuItem value="nombreComercial_desc">Nombre Comercial (Z-A)</MenuItem>
+          <MenuItem value="facturacionAnualUSD_asc">Facturación Anual (Menor a Mayor)</MenuItem>
+          <MenuItem value="facturacionAnualUSD_desc">Facturación Anual (Mayor a Menor)</MenuItem>
         </Select>
       </FormControl>
     </Box>

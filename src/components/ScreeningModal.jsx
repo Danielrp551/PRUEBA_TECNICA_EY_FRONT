@@ -9,6 +9,9 @@ import {
   CircularProgress,
   Typography,
   IconButton,
+  Tabs,
+  Tab,
+  Box,
 } from "@mui/material";
 import ScreeningResultTable from "./ScreeningResultTable";
 import SourceCheckbox from "./SourceCheckbox";
@@ -20,6 +23,26 @@ const screeningSources = [
   { id: "worldbank", name: "World Bank Sanctioned Firms" },
 ];
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
 export default function ScreeningModal({
   open,
   onClose,
@@ -29,6 +52,7 @@ export default function ScreeningModal({
   const [selectedSources, setSelectedSources] = useState([]);
   const [isScreening, setIsScreening] = useState(false);
   const [results, setResults] = useState([]);
+  const [tabValue, setTabValue] = useState(0);
 
   const handleSourceChange = (event) => {
     const { name, checked } = event.target;
@@ -41,10 +65,10 @@ export default function ScreeningModal({
 
   const handleScreening = async () => {
     setIsScreening(true);
-    console.log("selectedSources", selectedSources);
     try {
       const screeningResults = await onScreening(selectedSources);
       setResults(screeningResults);
+      setTabValue(0);
     } catch (error) {
       console.error("Error during screening:", error);
     } finally {
@@ -56,7 +80,12 @@ export default function ScreeningModal({
     setSelectedSources([]);
     setResults([]);
     setIsScreening(false);
+    setTabValue(0);
     onClose();
+  };
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
   };
 
   return (
@@ -118,10 +147,17 @@ export default function ScreeningModal({
         {!isScreening && results.length > 0 && (
           <div>
             <Typography variant="h6" gutterBottom>
-              Screening Results
+              Screening Resultados
             </Typography>
+            <Tabs value={tabValue} onChange={handleTabChange} aria-label="screening results tabs">
+              {results.map((result, index) => (
+                <Tab label={result.sourceName} id={`simple-tab-${index}`} aria-controls={`simple-tabpanel-${index}`} key={index} />
+              ))}
+            </Tabs>
             {results.map((result, index) => (
-              <ScreeningResultTable key={index} result={result} />
+              <TabPanel value={tabValue} index={index} key={index}>
+                <ScreeningResultTable result={result} />
+              </TabPanel>
             ))}
           </div>
         )}
@@ -161,3 +197,4 @@ export default function ScreeningModal({
     </Dialog>
   );
 }
+

@@ -25,6 +25,7 @@ export default function ProveedoresPage() {
   const [selectedCountries, setSelectedCountries] = useState([]);
   const [PageNumber, setPageNumber] = useState(1);
   const [PageSize, setPageSize] = useState(10);
+  const [sortBySelect, setSortBySelect] = useState("");
   const [SortBy, setSortBy] = useState("");
   const [IsDescending, setIsDescending] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -107,6 +108,19 @@ export default function ProveedoresPage() {
     setDeleteModalOpen(true);
   };
 
+  const handleSortChange = (event) => {
+    const value = event.target.value;
+    setSortBySelect(value);
+    if (value === "") {
+      setSortBy("");
+      setIsDescending(false);
+    } else {
+      const [sortField, direction] = value.split("_");
+      setSortBy(sortField);
+      setIsDescending(direction === "desc");
+    }
+  }
+
   console.log("selectedCountries", selectedCountries);
   // Utilizar el hook personalizado para obtener proveedores
   const { data, isLoading, isError, error, isFetching } = useProveedores({
@@ -114,6 +128,8 @@ export default function ProveedoresPage() {
     PageNumber,
     PageSize,
     Paises: selectedCountries.length > 0 ? selectedCountries : null,
+    SortBy,
+    IsDescending,
   });
 
   const handleScreening = (provider) => {
@@ -159,6 +175,8 @@ export default function ProveedoresPage() {
         handleSearchKeyDown={handleSearchKeyDown}
         handleCountryChange={handleCountryChange}
         selectedCountries={selectedCountries}
+        sortBy={sortBySelect}
+        handleSortChange={handleSortChange}
       />
 
       <SelectedFilters
