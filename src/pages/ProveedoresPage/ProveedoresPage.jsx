@@ -10,20 +10,29 @@ import useCreateProveedor from "../../hooks/useCreateProveedor";
 import useUpdateProveedor from "../../hooks/useUpdateProveedor";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 import useDeleteProveedor from "../../hooks/useDeleteProveedor";
+import useScreeningProveedor from "../../hooks/useScreeningProveedor";
+import ScreeningModal from "../../components/ScreeningModal";
+
+const screeningSources = [
+  { id: "icij", name: "ICIJ Offshore Leaks" },
+  { id: "ofac", name: "OFAC Sanctions List" },
+  { id: "worldbank", name: "World Bank Sanctioned Firms" },
+];
 
 export default function ProveedoresPage() {
   const [searchValue, setSearchValue] = useState("");
   const [NombreEmpresa, setNombreEmpresa] = useState("");
   const [selectedCountries, setSelectedCountries] = useState([]);
-  const [PageNumber, setPageNumber] = useState(1); 
+  const [PageNumber, setPageNumber] = useState(1);
   const [PageSize, setPageSize] = useState(10);
-  const [SortBy, setSortBy] = useState(""); 
-  const [IsDescending, setIsDescending] = useState(false); 
+  const [SortBy, setSortBy] = useState("");
+  const [IsDescending, setIsDescending] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("add");
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [providerToDelete, setProviderToDelete] = useState(null);
+  const [screeningModalOpen, setScreeningModalOpen] = useState(false);
 
   const { mutate: createProveedor, isLoading: isCreating } =
     useCreateProveedor();
@@ -31,6 +40,9 @@ export default function ProveedoresPage() {
     useUpdateProveedor();
   const { mutate: deleteProveedor, isLoading: isDeleting } =
     useDeleteProveedor();
+
+  const { mutateAsync: screeningProveedor, isLoading: isScreening } =
+    useScreeningProveedor();
 
   const handleSearchKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -98,11 +110,42 @@ export default function ProveedoresPage() {
   console.log("selectedCountries", selectedCountries);
   // Utilizar el hook personalizado para obtener proveedores
   const { data, isLoading, isError, error, isFetching } = useProveedores({
-    SearchValue : NombreEmpresa,
+    SearchValue: NombreEmpresa,
     PageNumber,
     PageSize,
     Paises: selectedCountries.length > 0 ? selectedCountries : null,
   });
+
+  const handleScreening = (provider) => {
+    setSelectedProvider(provider);
+    setScreeningModalOpen(true);
+    console.log("Screening", provider);
+  };
+
+  const onScreening = async (sources) => {
+    console.log("Screening", sources, selectedProvider.nombreComercial);
+    try {
+      const result = await screeningProveedor(
+        selectedProvider?.nombreComercial
+      );
+
+      const selectedSourceNames = sources
+        .map((id) => {
+          const mapping = screeningSources.find((s) => s.id === id);
+          return mapping ? mapping.name : null;
+        })
+        .filter((name) => name !== null);
+
+      const filteredData = result.filter((item) =>
+        selectedSourceNames.includes(item.sourceName)
+      );
+      console.log("Data screening", filteredData);
+      return filteredData;
+    } catch (error) {
+      console.error("Error al obtener el screening", error);
+    }
+    //return [];
+  };
 
   const totalCount = data ? data.length : 0;
 
@@ -137,6 +180,7 @@ export default function ProveedoresPage() {
         onView={(provider) => handleOpenModal("view", provider)}
         onEdit={(provider) => handleOpenModal("edit", provider)}
         onDelete={(provider) => handleDeleteProveedor(provider)}
+        onScreening={(provider) => handleScreening(provider)}
       />
       <ProviderModal
         open={modalOpen}
@@ -154,7 +198,14 @@ export default function ProveedoresPage() {
           onDelete(selectedProvider.id);
           setDeleteModalOpen(false);
         }}
-        providerName={selectedProvider?.nombreEmpresa}
+        providerName={selectedProvider?.nombreComercial}
+      />
+
+      <ScreeningModal
+        open={screeningModalOpen}
+        onClose={() => setScreeningModalOpen(false)}
+        providerName={selectedProvider?.nombreComercial || ""}
+        onScreening={onScreening}
       />
     </Box>
   );

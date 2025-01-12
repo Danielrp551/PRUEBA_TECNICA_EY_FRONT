@@ -30,6 +30,7 @@ export default function ProvidersTable({
   onView,
   onEdit,
   onDelete,
+  onScreening,
 }) {
 
   if (isLoading) {
@@ -139,7 +140,7 @@ export default function ProvidersTable({
                     </IconButton>
                     <IconButton
                       size="small"
-                      onClick={() => console.log("Screening")}
+                      onClick={() => onScreening(provider)}
                       aria-label="Screnning"
                     >
                       <List fontSize="small" />

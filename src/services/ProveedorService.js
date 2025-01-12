@@ -1,5 +1,3 @@
-// src/services/ProveedorService.js
-
 import axiosInstance from "./axiosInstance";
 import { handleError } from "../helpers/ErrorHandler";
 
