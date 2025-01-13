@@ -33,7 +33,7 @@ export default function SidebarLayout() {
           userName={user.userName} 
         />
         {/* Acá van las pantallas anidadas */}
-        <div className="p-4 flex-grow">
+        <div className="p-4 flex-grow overflow-y-auto h-full">
           <Outlet />
         </div>
       </div>

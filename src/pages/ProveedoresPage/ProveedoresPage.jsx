@@ -12,6 +12,7 @@ import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 import useDeleteProveedor from "../../hooks/useDeleteProveedor";
 import useScreeningProveedor from "../../hooks/useScreeningProveedor";
 import ScreeningModal from "../../components/ScreeningModal";
+import ProveedoresGuiaSeccion from "../../components/ProveedoresGuiaSeccion";
 
 const screeningSources = [
   { id: "icij", name: "ICIJ Offshore Leaks" },
@@ -168,6 +169,8 @@ export default function ProveedoresPage() {
   return (
     <Box className="bg-white rounded-lg shadow-lg p-6">
       <Header onOpenModal={handleOpenModal} />
+
+      <ProveedoresGuiaSeccion />
 
       <Filters
         searchValue={searchValue}

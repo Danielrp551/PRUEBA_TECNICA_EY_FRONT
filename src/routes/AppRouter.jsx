@@ -8,6 +8,7 @@ import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 
 // Páginas privadas
 import ProveedoresPage from '../pages/ProveedoresPage/ProveedoresPage';
+import PerfilPage from '../pages/PerfilPage/PerfilPage';
 
 export default function AppRouter() {
   return (
@@ -22,6 +23,9 @@ export default function AppRouter() {
           <Route element={<SidebarLayout />}>
             <Route path="/proveedores">
                 <Route index element={<ProveedoresPage />} />
+            </Route>
+            <Route path='/perfil' >
+              <Route index element={<PerfilPage />} />
             </Route>
           </Route>
         </Route>

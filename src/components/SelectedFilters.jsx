@@ -11,7 +11,7 @@ export default function SelectedFilters({
   if (selectedCountries.length === 0) return null;
 
   return (
-    <Box className="flex items-center gap-2 mb-4">
+    <Box className="flex items-center gap-2 mb-4" sx={{flexWrap: "wrap"}}>
       <Typography color="textSecondary" variant="body2" sx={{ mr: 1 }}>
         Filtrar por:
       </Typography>
@@ -31,6 +31,7 @@ export default function SelectedFilters({
                   color: "rgba(0, 0, 0, 0.87)",
                 },
               },
+              marginBottom: "4px",
             }}
           />
         );

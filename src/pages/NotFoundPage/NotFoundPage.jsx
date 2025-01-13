@@ -1,13 +1,46 @@
+import React from 'react';
+import { Typography, Button, Box, Container } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function NotFoundPage() {
-    return (
-        <div className="flex items-center justify-center h-screen bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900">
-        <div className="w-full max-w-md p-8 bg-white/5 backdrop-blur-lg rounded-xl shadow-xl border border-white/10">
-            <h2 className="text-3xl text-white font-bold mb-6 text-center tracking-widest uppercase">
-            Página no encontrada
-            </h2>
-            <p className="text-white text-center">La página que buscas no existe. Verifica la URL e intenta nuevamente.</p>
-        </div>
-        </div>
-    );
+  const navigate = useNavigate();
+
+  return (
+    <Container maxWidth="sm">
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="h1" component="h1" gutterBottom sx={{ fontSize: '6rem', fontWeight: 'bold', color: '#FFE600' }}>
+          404
+        </Typography>
+        <Typography variant="h4" component="h2" gutterBottom sx={{ color: '#FFFFFFF', mb: 4 }}>
+          Página no encontrada
+        </Typography>
+        <Typography variant="body1" sx={{ mb: 4, color: '#FFFFFFF' }}>
+          Lo sentimos, la página que estás buscando no existe. Puede que haya sido movida o eliminada.
+        </Typography>
+        <Button
+          variant="contained"
+          onClick={() => navigate('/login')}
+          sx={{
+            backgroundColor: '#FFE600',
+            color: '#000000',
+            '&:hover': {
+              backgroundColor: '#FFD700',
+            },
+          }}
+        >
+          Volver al inicio de sesión
+        </Button>
+      </Box>
+    </Container>
+  );
 }
+

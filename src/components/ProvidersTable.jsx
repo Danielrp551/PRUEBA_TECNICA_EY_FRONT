@@ -15,7 +15,7 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
-import { Visibility, Edit, Delete, List } from "@mui/icons-material";
+import { Visibility, Edit, Delete, FindInPage  } from "@mui/icons-material";
 import { countryMap } from "../constants/countries";
 
 export default function ProvidersTable({
@@ -32,7 +32,6 @@ export default function ProvidersTable({
   onDelete,
   onScreening,
 }) {
-
   if (isLoading) {
     return (
       <Box className="flex justify-center items-center">
@@ -106,10 +105,7 @@ export default function ProvidersTable({
           </TableHead>
           <TableBody>
             {providers.map((provider) => (
-              <TableRow
-                key={provider.id}
-                className="hover:bg-gray-50"
-              >
+              <TableRow key={provider.id} className="hover:bg-gray-50">
                 <TableCell>{provider.nombreComercial}</TableCell>
                 <TableCell>{provider.identificacionTributaria}</TableCell>
                 <TableCell>{provider.correoElectronico}</TableCell>
@@ -126,7 +122,21 @@ export default function ProvidersTable({
                     {countryMap[provider.pais] || provider.pais}
                   </Box>
                 </TableCell>
-                <TableCell>{provider.facturacionAnualUSD}</TableCell>
+                <TableCell>
+                  <Box component="span" sx={{ fontWeight: "bold" }}>
+                    <Box
+                      component="span"
+                      sx={{ color: "green", fontWeight: "bold" }}
+                    >
+                      $
+                    </Box>{" "}
+                    {new Intl.NumberFormat("en-US", {
+                      style: "decimal",
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    }).format(provider.facturacionAnualUSD)}
+                  </Box>
+                </TableCell>
                 <TableCell>
                   <Box className="flex gap-2">
                     <IconButton size="small" onClick={() => onView(provider)}>
@@ -143,7 +153,7 @@ export default function ProvidersTable({
                       onClick={() => onScreening(provider)}
                       aria-label="Screnning"
                     >
-                      <List fontSize="small" />
+                      <FindInPage fontSize="small" />
                     </IconButton>
                   </Box>
                 </TableCell>

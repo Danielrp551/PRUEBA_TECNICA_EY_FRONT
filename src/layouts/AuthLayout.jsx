@@ -1,7 +1,15 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
+import { useAuth } from '../context/AuthContext';
+import { Navigate } from "react-router-dom";
 
 export default function AuthLayout({ children }) {
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
+    return <Navigate to="/proveedores" replace />;
+  }
+  
   return (
     <Box className="flex flex-col md:flex-row min-h-screen">
       {/* Left Panel */}
