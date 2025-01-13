@@ -109,4 +109,3 @@ Pasos para desplegar en Vercel:
 ## **Notas Adicionales**
 - La URL del back-end utilizada en el entorno de desarrollo se configura en el archivo `.env.development`.
 - En producción, debes ajustar el archivo `.env.production` de manera local según tu entorno de despliegue.
-- La colección de Postman con los endpoints del API puede ser utilizada para verificar la conexión con el front-end.
