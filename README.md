@@ -30,7 +30,7 @@ Este repositorio contiene la implementación del **front-end** de la prueba téc
 
 1. **Clonar el repositorio**
    ```bash
-   git clone <[URL_DEL_REPOSITORIO_FRONTEND](https://github.com/Danielrp551/PRUEBA_TECNICA_EY_FRONT.git)>
+   git clone <(https://github.com/Danielrp551/PRUEBA_TECNICA_EY_FRONT.git)>
    cd <PRUEBA_TECNICA_EY_FRONT>
    ```
 
